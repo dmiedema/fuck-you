@@ -1,0 +1,17 @@
+#compdef fuck
+#autoload
+ 
+local expl
+local curcontext="$curcontext" state line
+typeset -A opt_args
+ 
+_arguments -C \
+  ':who:(you)' \
+  '*:process:->process'
+ 
+case $state in
+process)
+  COMPREPLY=( $(ps axc|awk '{ print $5 }'|sort -u|grep -v "^[\-\(]"|grep -i "^$cur") )
+  _values -s ' ' 'apps' $COMPREPLY
+;;
+esac
